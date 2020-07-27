@@ -5,7 +5,8 @@
 
 const fs = require('fs');
 const http = require('http')
-const url = require('url')
+const url = require('url');
+
 // asynchronous non blocking code
 // const fs = require('fs');
 // fs.readFileSync('.input.txt', 'utf-8', (err,data) {
@@ -41,14 +42,22 @@ const url = require('url')
 // });
 
 // console.log('Will read file') 
-
+// synchronous code
+// api sending route
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const dataObj = JSON.parse(data);
+// / /
 const server = http.createServer((req, res) => {
     const pathName =  req.url;
     if(pathName === '/' || pathName === '/overview'){
         res.end('This is the overview')
     }
-    else if(pathName == '/products'){
+    else if(pathName === '/product'){
         res.end('This is the Products')
+    }
+    else if(pathName === '/api'){
+        res.writeHead(200, {'Content-type' : 'application/json'});
+        res.end(data);
     }
     else{
         res.writeHead(404, {
