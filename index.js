@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const http = require('http')
+const url = require('url')
 // asynchronous non blocking code
 // const fs = require('fs');
 // fs.readFileSync('.input.txt', 'utf-8', (err,data) {
@@ -42,10 +43,25 @@ const http = require('http')
 // console.log('Will read file') 
 
 const server = http.createServer((req, res) => {
-    // console.log(req)
+    const pathName =  req.url;
+    if(pathName === '/' || pathName === '/overview'){
+        res.end('This is the overview')
+    }
+    else if(pathName == '/products'){
+        res.end('This is the Products')
+    }
+    else{
+        res.writeHead(404, {
+            'Content-type': 'text/html',
+            'my-own-header': 'hello world'
+        })
+        res.end("<h1>page not found</h1>");
+    }
     res.end('Hello From the server')
 });
 server.listen(8000, '127.0.0.1', () => {
     console.log('LIST TO REQUEST ON PORT 8000')
 });
+
+
 
